@@ -1,0 +1,23 @@
+{
+    "version": "0.2",
+    "__metadata__" : {
+        "url" : "https://www.innatedb.com/license.jsp",
+        "license_url" : "https://www.gnu.org/licenses/dsl.html",
+        "licence" : "Design Science License",
+    "author" : {
+        "name" : "Eric Zhou",
+        "url" : "https://github.com/ericz1803"
+    }
+    },
+    "requires" : ["lib==1.3","anotherlib"],
+    "dumper" : {
+        "data_url" : "https://www.innatedb.com/download/interactions/innatedb_all.mitab.gz",
+        "uncompress" : true
+        // "release" : "<path.to.module>:<function_name>"  # optional
+        // "schedule" : "0 12 * * *"  # optional
+    },
+    "uploader" : {
+        "parser" : "parser:load_data",
+        "on_duplicates" : "ignore|error|merge" # optional, default to "error"
+    }
+}
