@@ -77,6 +77,7 @@ def process_relation(relation):
     return relation
 
 def load_data(data_folder: str):
+    count = Counter()
     with open(os.path.join(data_folder, 'innatedb_all.mitab'), 'r') as f:
         reader = csv.reader(f, delimiter='\t')
         header = next(reader)
@@ -88,10 +89,14 @@ def load_data(data_folder: str):
             obj = {x.replace('_B', ''):data[x] for x in data if ('_B' in x and data[x] != '-')} # get all cols ending in _B for object
             relation = {x:data[x] for x in data if (not any(substr in x for substr in ['A', 'B']) and data[x] != '-')} # get all other cols for relation
 
+            id = f"{data['unique_identifier_A']}_{data['unique_identifier_B']}_{relation['idinteraction_in_source_db']}"
+            count[id] += 1
+
             ret = {
                 "subject": process_node(source),
                 "object": process_node(obj),
                 "relation": process_relation(relation),
-                "_id": f"{data['unique_identifier_A']}_{data['unique_identifier_B']}"
+                "_id": f"{id}_{count[id]}" if count[id] > 1 else id
             }
             yield ret
+            
