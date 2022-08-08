@@ -59,7 +59,7 @@ def process_node(obj):
     obj['unique_identifier'] = {"innatedb": obj['unique_identifier'].replace('innatedb:', '')}
     obj['alt_identifier'] = {"ensembl": obj['alt_identifier'].replace('ensembl:', '')}
     obj['alias'] = separate_alias(obj['alias'])
-    obj['ncbi_taxid'] = obj['ncbi_taxid'].replace('taxid:', '').split('(')[0] # extract number
+    obj['ncbi_taxid'] = int(obj['ncbi_taxid'].replace('taxid:', '').split('(')[0]) # extract number
     for k in ['biological_role', 'exp_role', 'interactor_type', 'participant_identification_method']:
         if k in obj:
             obj[k] = separate_id_and_label(obj[k])
@@ -69,9 +69,9 @@ def process_node(obj):
 def process_relation(relation):
     relation['interaction_detection_method'] = separate_id_and_label(relation['interaction_detection_method'])
     relation['interaction_type'] = separate_id_and_label(relation['interaction_type'])
-    relation['pmid'] = relation['pmid'].replace('pubmed:', '')
+    relation['pmid'] = int(relation['pmid'].replace('pubmed:', ''))
     relation['confidence_score'] = separate_confidence_score(relation['confidence_score'])
-    relation['ncbi_taxid_host_organism'] = relation['ncbi_taxid_host_organism'].replace('taxid:', '')
+    relation['ncbi_taxid_host_organism'] = int(relation['ncbi_taxid_host_organism'].replace('taxid:', ''))
     relation['creation_date'] = relation['creation_date'].replace('/', '-')
     relation['update_date'] = relation['update_date'].replace('/', '-')
     return relation
